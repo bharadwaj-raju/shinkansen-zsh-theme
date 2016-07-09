@@ -1,14 +1,14 @@
-<img src="http://rawgit.com/bharadwaj-raju/shinkansen-zsh-theme/master/img/icon.svg" width="100%" />
-
-# Shinkansen zsh theme
+# <img src="http://rawgit.com/bharadwaj-raju/shinkansen-zsh-theme/master/img/icon.svg" width="20%" /> Shinkansen zsh theme
 
 Shinkansen is a ZSH (Z Shell) theme. It aims for
 simplicity and minimalism, showing only minimal information.
 
 It is *not* a fancy git/rails/python/etc. info prompt. It is just a prompt, useful nevertheless.
 
+Shinkansen is [customizable](#customization) and [extensible](#custom-segments-and-extensions).
+
 It currently shows:
-- A running clock (yes, *running*!)
+- A *running* clock (24-hour or 12-hour, or [custom `date` command](#time))
 - Current directory
 - Background jobs
 - Exit code of last command
@@ -17,15 +17,15 @@ For a tmux theme to work with it, I suggest [Maglev](https://github.com/caiogond
 
 ## Preview
 
-![Preview](http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/preview.gif)
+![Preview](http://raw.github.com/bharadwaj-raju/shinkansen-zsh-theme/master/img/preview.gif)
 
 
 ## Requirements
 
 In order to use the theme, you will first need:
 
-* Powerline compatible fonts like [Vim Powerline patched fonts](https://github.com/Lokaltog/powerline-fonts), [Input Mono](http://input.fontbureau.com/) or [Monoid](http://larsenwork.com/monoid/).
-* ZSH
+- Powerline compatible fonts like [Vim Powerline patched fonts](https://github.com/Lokaltog/powerline-fonts), [Input Mono](http://input.fontbureau.com/) or [Monoid](http://larsenwork.com/monoid/).
+- ZSH
 
 Make sure terminal is using 256-colors mode with `export TERM="xterm-256color"`
 
@@ -51,44 +51,55 @@ Shinkansen is configurable. You can change colors, the segment order, add custom
 or don't want to see. All options must be overridden in your `.zshrc` file.
 
 ### Order
-`SHINKANSEN_PROMPT_ORDER` defines order of prompt segments. Use zsh array
+`SHINKANSEN_PROMPT_ORDER` defines order and enable/disable of prompt segments. Use zsh array
 syntax to specify your own order, e.g:
 
 ```bash
 SHINKANSEN_PROMPT_ORDER=(
-  context
-  dir
-  time
+	time
+	status
+	custom
+	context
+	dir
 )
 ```
+
+(That was the default.)
 
 *NOTE:* You do not need to specify *end* segment - it will be added automatically.
 
-### Custom segments
+### Custom segments and extensions
 
-- Add the segment's name to `SHINKANSEN_PROMPT_ORDER` as follows:
+Add the segment's name to `SHINKANSEN_PROMPT_ORDER` as follows:
 
 ```bash
 SHINKANSEN_PROMPT_ORDER=(
-  git
-  dir
-  sayhello
+	time
+	status
+	custom
+	context
+	dir
+	sayhello
 )
 
 ```
-- Create a function as follows:
+Create a function as follows:
 
 ```bash
 prompt_sayhello() {
-  prompt_segment yellow blue "hello"
+	prompt_segment yellow blue "hello"
 }
 ```
 
-![Prompt_Order](./img/tips/prompt_order.png)
-
 That's it.
 
-### Prompt
+### Built-in segment customization
+
+See below for each one's options.
+
+Set the value of each option-variable *after* the `source` part, or at the ned of `.zshrc` if installed using a plugin manager.
+
+#### Prompt
 
 | Variable                         | Default | Meaning
 |----------------------------------|---------|-------------------------------------------------|
@@ -98,26 +109,33 @@ That's it.
 |`SHINKANSEN_PROMPT_ADD_NEWLINE`   | `true`  | Adds a newline character before each prompt line
 
 
-### Status
+#### Status
+
+- The exit code of the last command.
+- Am I root?
+- Are there any background jobs?
 
 | Variable                       |Default|Meaning
-|--------------------------------|-------|-------|
-|`SHINKANSEN_STATUS_SHOW`        |`true` |Show/hide that segment
+|--------------------------------|-------|-------
 |`SHINKANSEN_STATUS_EXIT_SHOW`   |`false`|Show/hide exit code of last command
 |`SHINKANSEN_STATUS_BG`          |`green`|Background color
 |`SHINKANSEN_STATUS_ERROR_BG`    |`red`  |Background color of segment when last command exited with an error
 |`SHINKANSEN_STATUS_FG`          |`black`|Foreground color
 
-### Time
+#### Time
 
-|Variable|Default|Meaning
-|--------|-------|-------|
-|`SHINKANSEN_TIME_SHOW`|`true`|Show/hide that segment
-|`SHINKANSEN_TIME_12HR`|`false`|Format time using 12-hour clock (am/pm)
-|`SHINKANSEN_TIME_BG`|`''`|Background color
-|`SHINKANSEN_TIME_FG`|`''`|Foreground color
+The running clock.
 
-### Custom
+|Variable                        |Default            |Meaning
+|--------------------------------|-------------------|-------|
+|`SHINKANSEN_TIME_DATE_CMD`      |`date +%H:%M:%S` (24hr) or `date "+%I:%M:%S %p"` (12hr)                   |
+|`SHINKANSEN_TIME_12HR`          |`false`            |Format time using 12-hour clock (am/pm)
+|`SHINKANSEN_TIME_BG`            |`white`            |Background color
+|`SHINKANSEN_TIME_FG`            |`black`            |Foreground color
+
+#### Custom
+
+A custom message, empty by default.
 
 |Variable|Default|Meaning
 |--------|-------|-------|
@@ -125,22 +143,24 @@ That's it.
 |`SHINKANSEN_CUSTOM_BG`|`black`|Background color
 |`SHINKANSEN_CUSTOM_FG`|`black`|Foreground color
 
-### Context
+#### Context
+
+`user@hostname`, displayed if running over SSH.
 
 |Variable|Default|Meaning
 |--------|-------|-------|
-|`SHINKANSEN_CONTEXT_SHOW`|`false`|Show/hide that segment
 |`SHINKANSEN_CONTEXT_BG`|`black`|Background color
 |`SHINKANSEN_CONTEXT_FG`|`default`|Foreground color
 |`SHINKANSEN_CONTEXT_DEFAULT_USER`|none|Default user. If you are running with other user other than default, the segment will be showed.
 |`SHINKANSEN_CONTEXT_HOSTNAME`|`%m`|Hostname. Set %M to display the full qualified domain name.
 |`SHINKANSEN_IS_SSH_CLIENT`|none|If `true`, the segment will be showed.
 
-### Dir
+#### Dir
+
+Current directory.
 
 |Variable|Default|Meaning
 |--------|-------|-------|
-|`SHINKANSEN_DIR_SHOW`|`true`|Show/hide that segment
 |`SHINKANSEN_DIR_BG`|`blue`|Background color
 |`SHINKANSEN_DIR_FG`|`white`|Foreground color
 |`SHINKANSEN_DIR_CONTEXT_SHOW`|`false`|Show user and machine in an SCP formatted style
