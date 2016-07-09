@@ -1,9 +1,11 @@
-# <img src="http://rawgit.com/bharadwaj-raju/shinkansen-zsh-theme/master/img/icon.svg" width="20%" /> Shinkansen zsh theme
+# <img src="http://rawgit.com/bharadwaj-raju/shinkansen-zsh-theme/master/img/icon.png" height="40px" width="40px" /> Shinkansen zsh theme
 
-Shinkansen is a ZSH (Z Shell) theme. It aims for
-simplicity and minimalism, showing only minimal information.
+Shinkansen is a ZSH (Z Shell) theme.
 
-It is *not* a fancy git/rails/python/etc. info prompt. It is just a prompt, useful nevertheless.
+It aims for simplicity and minimalism, showing only minimal information.
+
+It is *not* a fancy git/rails/python/etc. info prompt.
+It is just a prompt, useful nevertheless.
 
 Shinkansen is [customizable](#customization) and [extensible](#custom-segments-and-extensions).
 
@@ -66,8 +68,6 @@ SHINKANSEN_PROMPT_ORDER=(
 
 (That was the default.)
 
-*NOTE:* You do not need to specify *end* segment - it will be added automatically.
-
 ### Custom segments and extensions
 
 Add the segment's name to `SHINKANSEN_PROMPT_ORDER` as follows:
@@ -91,13 +91,17 @@ prompt_sayhello() {
 }
 ```
 
+The naming rule for such functions is `prompt_` + the segment's name.
+
+*NOTE:* Such functions should be defined *before* the `source` or enabling of the plugin.
+
 That's it.
 
 ### Built-in segment customization
 
 See below for each one's options.
 
-Set the value of each option-variable *after* the `source` part, or at the ned of `.zshrc` if installed using a plugin manager.
+Set the value of each option-variable *before* the `source` part or before enabling the plugin.
 
 #### Prompt
 
@@ -126,12 +130,12 @@ Set the value of each option-variable *after* the `source` part, or at the ned o
 
 The running clock.
 
-|Variable                        |Default            |Meaning
-|--------------------------------|-------------------|-------|
-|`SHINKANSEN_TIME_DATE_CMD`      |`date +%H:%M:%S` (24hr) or `date "+%I:%M:%S %p"` (12hr)                   |
-|`SHINKANSEN_TIME_12HR`          |`false`            |Format time using 12-hour clock (am/pm)
-|`SHINKANSEN_TIME_BG`            |`white`            |Background color
-|`SHINKANSEN_TIME_FG`            |`black`            |Foreground color
+|Variable                        |Default                                      |Meaning
+|--------------------------------|--------------------------------------------|----------------------------------------|
+|`SHINKANSEN_TIME_DATE_CMD`|`date +%H:%M:%S` (24hr) or `date "+%I:%M:%S %p"` (12hr)|Instead of default, use a custom command for time
+|`SHINKANSEN_TIME_12HR`|`false`|Format time using 12-hour clock (am/pm)
+|`SHINKANSEN_TIME_BG`|`white`|Background color
+|`SHINKANSEN_TIME_FG` |`black`|Foreground color
 
 #### Custom
 
@@ -149,11 +153,11 @@ A custom message, empty by default.
 
 |Variable|Default|Meaning
 |--------|-------|-------|
-|`SHINKANSEN_CONTEXT_BG`|`black`|Background color
-|`SHINKANSEN_CONTEXT_FG`|`default`|Foreground color
 |`SHINKANSEN_CONTEXT_DEFAULT_USER`|none|Default user. If you are running with other user other than default, the segment will be showed.
 |`SHINKANSEN_CONTEXT_HOSTNAME`|`%m`|Hostname. Set %M to display the full qualified domain name.
-|`SHINKANSEN_IS_SSH_CLIENT`|none|If `true`, the segment will be showed.
+|`SHINKANSEN_CONTEXT_ALWAYS_SHOW`|`false`|If `true`, the segment will be always on, regardless of SSH/no SSH.
+|`SHINKANSEN_CONTEXT_BG`|`black`|Background color
+|`SHINKANSEN_CONTEXT_FG`|`default`|Foreground color
 
 #### Dir
 
@@ -161,10 +165,10 @@ Current directory.
 
 |Variable|Default|Meaning
 |--------|-------|-------|
-|`SHINKANSEN_DIR_BG`|`blue`|Background color
-|`SHINKANSEN_DIR_FG`|`white`|Foreground color
 |`SHINKANSEN_DIR_CONTEXT_SHOW`|`false`|Show user and machine in an SCP formatted style
 |`SHINKANSEN_DIR_EXTENDED`|`1`|Extended path (0=short path, 1=medium path, 2=complete path, everything else=medium path)
+|`SHINKANSEN_DIR_BG`|`blue`|Background color
+|`SHINKANSEN_DIR_FG`|`white`|Foreground color
 
 
 ## Contributors

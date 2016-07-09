@@ -56,10 +56,6 @@ if [ ! -n "${SHINKANSEN_STATUS_FG+1}" ]; then
 fi
 
 # TIME
-if [ ! -n "${SHINKANSEN_TIME_SHOW+1}" ]; then
-	SHINKANSEN_TIME_SHOW=true
-fi
-
 if [ ! -n "${SHINKANSEN_TIME_BG+1}" ]; then
 	SHINKANSEN_TIME_BG=white
 fi
@@ -287,7 +283,13 @@ PROMPT="$PROMPT"'%{${fg_bold[default]}%}'
 [[ $SHINKANSEN_PROMPT_SEPARATE_LINE == false ]] && PROMPT="$PROMPT "
 PROMPT="$PROMPT"'$(prompt_char) %{$reset_color%}'
 
-# Enable running clock (redraw prompt)
+# ------------------------------------------------------------------------------
+# REDRAW PROMPT
+# Redraw prompt every TMOUT seconds (enables running clock)
+# ------------------------------------------------------------------------------
+
+# NOTE: the names of 'TMOUT' and 'TRAPALRM' cannot be changed, they are built
+#		to ZSH
 
 TMOUT=1	# redraw interval
 
